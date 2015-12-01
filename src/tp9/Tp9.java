@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import tp9.model.TwitterModel;
+import tp9.swingView.SwingTwitterView;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -32,9 +34,12 @@ public class Tp9 {
 		JLabel userLabel = new JLabel("User");
 		JLabel tagLabel = new JLabel("Hashtag Search");
 		JScrollPane resultPane = new JScrollPane();
-				
-				
-			
 		
+		
+		
+		final ITwitterView view = new SwingTwitterView();
+		final TwitterModel model = new TwitterModel();
+		final TwitterController ctrl = new TwitterController(model, view);
+		view.run();
 	}
 }
