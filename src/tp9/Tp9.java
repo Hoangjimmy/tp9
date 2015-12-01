@@ -34,41 +34,6 @@ public class Tp9 {
 		QueryResult result = twitter.search(query);
 		for (Status s : result.getTweets())
 			System.out.println(s.getText());
-		
-		
-		
-		JFrame frame = new JFrame();
-		JPanel pane = new JPanel(new BorderLayout());
-		JPanel pane2 = new JPanel(new FlowLayout());
-		JTextField userField = new JTextField();
-		JTextField tagField = new JTextField();
-		JButton	searchButton = new JButton("Search");
-		JLabel userLabel = new JLabel("User");
-		JLabel tagLabel = new JLabel("Hashtag Search");
-
-		JScrollPane resultPane = new JScrollPane( new JTextArea());
-		
-		
-		JMenuBar menu = new JMenuBar();
-		JMenu file = new JMenu("File");
-		menu.add(file);
-		pane.add( pane2, BorderLayout.NORTH);
-		pane2.add(userLabel);
-		userField.setPreferredSize(new Dimension(128, 24));
-		pane2.add(userField);
-		pane2.add(tagLabel);
-		tagField.setPreferredSize(new Dimension(128, 24));
-		pane2.add(tagField);
-
-		pane2.add(searchButton);
-		pane.add(resultPane,BorderLayout.CENTER);
-		frame.add(pane);
-		
-		frame.setJMenuBar(menu);
-		frame.setSize(800, 400);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
 
 		
 		
