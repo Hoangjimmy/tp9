@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import tp9.ITwitterView;
 import tp9.TwitterController;
+import tp9.model.Twit;
 import tp9.model.TwitterModel;
 
 public class SwingTwitterView implements ITwitterView {
@@ -27,6 +28,7 @@ public class SwingTwitterView implements ITwitterView {
 	private final JButton searchButton;
 	private final JScrollPane resultPane;
 	private final JTextField keywords;
+	private final JTextArea resultTA;
 	private TwitterController controller;
 	
 	public SwingTwitterView() {
@@ -45,7 +47,8 @@ public class SwingTwitterView implements ITwitterView {
 						Arrays.asList(keywords.getText().split("\\s+")));
 			}
 		});
-		resultPane = new JScrollPane(new JTextArea());
+		resultTA = new JTextArea();
+		resultPane = new JScrollPane(resultTA);
 		keywords = new JTextField();
 		
 		JPanel pane = new JPanel(new BorderLayout());
@@ -85,7 +88,8 @@ public class SwingTwitterView implements ITwitterView {
 
 	@Override
 	public void notifyModelChanged(TwitterModel tm) {
-
+		for(Twit t : tm.twits)
+			resultTA.setText(t.text);
 	}
 
 	@Override

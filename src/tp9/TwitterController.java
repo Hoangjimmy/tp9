@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import tp9.model.Twit;
 import tp9.model.TwitterModel;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -30,27 +31,30 @@ public class TwitterController implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		assert o instanceof TwitterModel;
+		
+		_view.notifyModelChanged(_model);
 	}
 
 	public void loadTwits(List<String> users, List<String> hashtags, List<String> keywords) {
 		StringBuilder sb = new StringBuilder();
-		for (String user : users)
-			sb.append('@').append(user);
-		for (String hashtag : hashtags)
-			sb.append('#').append(hashtag);
-		for (String keyword : keywords)
-			sb.append(keyword);
-
+		for(String user : users)
+			sb.append(" @").append(user);
+		for(String hashtag : hashtags)
+			sb.append(" #").append(hashtag);
+		for(String keyword : keywords)
+			sb.append(" ").append(keyword);
+		
 		Query query = new Query(sb.toString());
 
 		QueryResult result;
 		try {
 			result = _twitter.search(query);
 			for (Status s : result.getTweets())
-				System.out.println(s.getText());
+				_model.twits.add(new Twit(s));
+			_model.notifyObservers();
 		} catch (TwitterException ex) {
-			Logger.getLogger(TwitterController.class.getName()).log(Level.SEVERE, null, ex);
+			_view.notifyError(ex);
 		}
 
 	}
