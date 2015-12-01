@@ -1,9 +1,19 @@
 package tp9;
 
+import java.awt.BorderLayout;
+import static java.awt.BorderLayout.NORTH;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -46,14 +56,35 @@ public class Tp9 {
 		
 		
 		JFrame frame = new JFrame();
+		JPanel pane = new JPanel(new BorderLayout());
+		JPanel pane2 = new JPanel(new FlowLayout());
 		JTextField userField = new JTextField();
 		JTextField tagField = new JTextField();
 		JButton	searchButton = new JButton("Search");
 		JLabel userLabel = new JLabel("User");
 		JLabel tagLabel = new JLabel("Hashtag Search");
-		JScrollPane resultPane = new JScrollPane();
-				
-				
+		JScrollPane resultPane = new JScrollPane( new JTextArea());
+		
+		
+		JMenuBar menu = new JMenuBar();
+		JMenu file = new JMenu("File");
+		menu.add(file);
+		pane.add( pane2, BorderLayout.NORTH);
+		pane2.add(userLabel);
+		userField.setPreferredSize(new Dimension(128, 24));
+		pane2.add(userField);
+		pane2.add(tagLabel);
+		tagField.setPreferredSize(new Dimension(128, 24));
+		pane2.add(tagField);
+
+		pane2.add(searchButton);
+		pane.add(resultPane,BorderLayout.CENTER);
+		frame.add(pane);
+		
+		frame.setJMenuBar(menu);
+		frame.setSize(800, 400);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 		
 	}
