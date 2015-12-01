@@ -23,6 +23,7 @@ public class SwingTwitterView implements ITwitterView {
 	private final JTextField tagField;
 	private final JButton searchButton;
 	private final JScrollPane resultPane;
+	private final JTextField keywords;
 
 	public SwingTwitterView() {
 
@@ -31,29 +32,31 @@ public class SwingTwitterView implements ITwitterView {
 		tagField = new JTextField();
 		searchButton = new JButton("Search");
 		resultPane = new JScrollPane(new JTextArea());
+		keywords = new JTextField();
 		
 		JPanel pane = new JPanel(new BorderLayout());
 		JPanel pane2 = new JPanel(new FlowLayout());
-
 		JLabel userLabel = new JLabel("User");
 		JLabel tagLabel = new JLabel("Hashtag Search");
+		JLabel keyLabel = new JLabel("Keywords Search");
 		
 		JMenuBar menu = new JMenuBar();
 		JMenu file = new JMenu("File");
 		menu.add(file);
 
-		userField.setPreferredSize(new Dimension(128, 24));
-		tagField.setPreferredSize(new Dimension(128, 24));
-		
+		userField.setPreferredSize(new Dimension(128, 20));
+		tagField.setPreferredSize(new Dimension(128, 20));
+		keywords.setPreferredSize(new Dimension(128, 20));
 		pane.add(resultPane, BorderLayout.CENTER);
 		pane.add(pane2, BorderLayout.NORTH);
-		pane2.add(userLabel);
 		
+		pane2.add(userLabel);
 		pane2.add(userField);
 		pane2.add(tagLabel);
 		pane2.add(tagField);
+		pane2.add(keyLabel);
+		pane2.add(keywords);
 		pane2.add(searchButton);
-		
 		
 		frame.add(pane);
 		frame.setJMenuBar(menu);
