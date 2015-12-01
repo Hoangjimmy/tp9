@@ -3,6 +3,9 @@ package tp9.swingView;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,13 +27,24 @@ public class SwingTwitterView implements ITwitterView {
 	private final JButton searchButton;
 	private final JScrollPane resultPane;
 	private final JTextField keywords;
-
+	private TwitterController controller;
+	
 	public SwingTwitterView() {
 
 		frame = new JFrame();
 		userField = new JTextField();
 		tagField = new JTextField();
 		searchButton = new JButton("Search");
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.loadTwits(
+						Arrays.asList(userField.getText().split("\\s+")),
+						Arrays.asList(tagField.getText().split("\\s+")), 
+						Arrays.asList(keywords.getText().split("\\s+")));
+			}
+		});
 		resultPane = new JScrollPane(new JTextArea());
 		keywords = new JTextField();
 		
@@ -66,7 +80,7 @@ public class SwingTwitterView implements ITwitterView {
 
 	@Override
 	public void setController(TwitterController controller) {
-
+		this.controller = controller;
 	}
 
 	@Override
