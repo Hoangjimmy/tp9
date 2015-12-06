@@ -34,6 +34,8 @@ public class TwitPanel extends JPanel {
 		});
 		
 		JLabel username = new JLabel(twit.userName);
+		username.setForeground(Color.black);
+		username.setBorder(new EmptyBorder(0, 4, 4, 0));
 		add(username, new GridBagConstraints() {
 			{
 				gridx = 1;
