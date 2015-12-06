@@ -48,7 +48,7 @@ public class TwitterController implements Observer {
 			result = _twitter.search(query);
 			_model.setStatus(result.getTweets());
 			_model.notifyObservers();
-		} catch (TwitterException ex) {
+		} catch (Exception ex) {
 			_view.notifyError(ex);
 		}
 
