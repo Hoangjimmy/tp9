@@ -24,8 +24,8 @@ import tp9.model.TwitterModel;
 public class SwingTwitterView implements ITwitterView {
 
 	private final JFrame frame;
-	private final JTextField userField;
-	private final JTextField tagField;
+	private final JTextField usersField;
+	private final JTextField tagsField;
 	private final JButton searchButton;
 	private final JPanel resultsPanel;
 	private final JTextField keywordsField;
@@ -37,27 +37,24 @@ public class SwingTwitterView implements ITwitterView {
 		final ActionListener launchQuery = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.loadTwits(
-						Arrays.asList(userField.getText().split("\\s+")),
-						Arrays.asList(tagField.getText().split("\\s+")),
-						Arrays.asList(keywordsField.getText().split("\\s+")));
+				launchQuery();
 			}
 		};
 
 		final JPanel cp = new JPanel(new BorderLayout());
 		final JPanel queryPanel = new JPanel(new FlowLayout());
 
-		userField = new JTextField();
-		userField.setPreferredSize(new Dimension(128, 20));
-		userField.addActionListener(launchQuery);
+		usersField = new JTextField();
+		usersField.setPreferredSize(new Dimension(128, 20));
+		usersField.addActionListener(launchQuery);
 		queryPanel.add(new JLabel("User"));
-		queryPanel.add(userField);
+		queryPanel.add(usersField);
 
-		tagField = new JTextField();
-		tagField.setPreferredSize(new Dimension(128, 20));
-		tagField.addActionListener(launchQuery);
+		tagsField = new JTextField();
+		tagsField.setPreferredSize(new Dimension(128, 20));
+		tagsField.addActionListener(launchQuery);
 		queryPanel.add(new JLabel("Hashtag Search"));
-		queryPanel.add(tagField);
+		queryPanel.add(tagsField);
 
 		keywordsField = new JTextField();
 		keywordsField.setPreferredSize(new Dimension(128, 20));
@@ -83,6 +80,21 @@ public class SwingTwitterView implements ITwitterView {
 
 		frame.getContentPane().add(cp);
 		frame.setSize(800, 600);
+	}
+
+	private void launchQuery() {
+		usersField.setEnabled(false);
+		tagsField.setEnabled(false);
+		keywordsField.setEnabled(false);
+		
+		controller.loadTwits(
+				Arrays.asList(usersField.getText().split("\\s+")),
+				Arrays.asList(tagsField.getText().split("\\s+")),
+				Arrays.asList(keywordsField.getText().split("\\s+")));
+		
+		usersField.setEnabled(true);
+		tagsField.setEnabled(true);
+		keywordsField.setEnabled(true);
 	}
 
 	@Override
