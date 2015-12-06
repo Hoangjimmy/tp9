@@ -11,15 +11,17 @@ import javax.swing.border.EmptyBorder;
 import tp9.model.Twit;
 
 public class TwitPanel extends JPanel {
-
+	
 	public static final Dimension AVATAR_SIZE = new Dimension(100, 100);
-
+	
 	public TwitPanel(Twit twit) {
 		setLayout(new GridBagLayout());
 		setBorder(new EmptyBorder(8, 8, 8, 8));
-
+		setOpaque(false);
+		
 		JLabel avatar = new JLabel(ImageLoader.load(twit.avatar));
 		avatar.setPreferredSize(AVATAR_SIZE);
+		
 		add(avatar, new GridBagConstraints() {
 			{
 				gridx = 0;
@@ -31,7 +33,7 @@ public class TwitPanel extends JPanel {
 				anchor = LINE_START;
 			}
 		});
-
+		
 		JLabel username = new JLabel(twit.userName);
 		add(username, new GridBagConstraints() {
 			{
@@ -52,7 +54,7 @@ public class TwitPanel extends JPanel {
 				JTextPane dummy = new JTextPane();
 				dummy.setSize(getWidth(), Short.MAX_VALUE);
 				dummy.setText(getText());
-
+				
 				return new Dimension(0, dummy.getPreferredSize().height);
 			}
 		};
@@ -69,7 +71,7 @@ public class TwitPanel extends JPanel {
 				fill = BOTH;
 			}
 		});
-
+		
 		GridBagConstraints c = new GridBagConstraints() {
 			{
 				gridx = 1;
@@ -81,6 +83,7 @@ public class TwitPanel extends JPanel {
 				fill = BOTH;
 			}
 		};
+		
 		for (String img : twit.images) {
 			final JLabel lbl = new JLabel(ImageLoader.load(img));
 			lbl.setOpaque(true);

@@ -1,6 +1,7 @@
 package tp9.swingView;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -73,6 +74,7 @@ public class SwingTwitterView implements ITwitterView {
 		
 		resultsPanel = new JPanel();
 		resultsPanel.setLayout(new GridBagLayout());
+		resultsPanel.setBackground(new Color(0xFF90C0FF));
 		
 		final JScrollPane scrP = new JScrollPane(resultsPanel);
 		scrP.getVerticalScrollBar().setUnitIncrement(16);
