@@ -9,7 +9,7 @@ public class TwitterModel extends Observable {
 
 	public final List<Twit> twits = new ArrayList<>();
 
-	public void setStatus(List<Status> status) {
+	public void loatTweets(List<Status> status) {
 		twits.clear();
 		for(Status s : status)
 			twits.add(new Twit(s));

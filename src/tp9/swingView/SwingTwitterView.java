@@ -3,103 +3,125 @@ package tp9.swingView;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import tp9.ITwitterView;
 import tp9.TwitterController;
 import tp9.model.Twit;
 import tp9.model.TwitterModel;
 
 public class SwingTwitterView implements ITwitterView {
-
+	
 	private final JFrame frame;
 	private final JTextField userField;
 	private final JTextField tagField;
 	private final JButton searchButton;
-	private final JScrollPane resultPane;
-	private final JTextField keywords;
-	private final JTextArea resultTA;
+	private final JPanel resultsPanel;
+	private final JTextField keywordsField;
 	private TwitterController controller;
 	
 	public SwingTwitterView() {
-
 		frame = new JFrame();
-		userField = new JTextField();
-		tagField = new JTextField();
-		searchButton = new JButton("Search");
-		searchButton.addActionListener(new ActionListener() {
-
+		
+		final ActionListener launchQuery = new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.loadTwits(
 						Arrays.asList(userField.getText().split("\\s+")),
-						Arrays.asList(tagField.getText().split("\\s+")), 
-						Arrays.asList(keywords.getText().split("\\s+")));
+						Arrays.asList(tagField.getText().split("\\s+")),
+						Arrays.asList(keywordsField.getText().split("\\s+")));
 			}
-		});
-		resultTA = new JTextArea();
-		resultPane = new JScrollPane(resultTA);
-		keywords = new JTextField();
+		};
 		
-		JPanel pane = new JPanel(new BorderLayout());
-		JPanel pane2 = new JPanel(new FlowLayout());
-		JLabel userLabel = new JLabel("User");
-		JLabel tagLabel = new JLabel("Hashtag Search");
-		JLabel keyLabel = new JLabel("Keywords Search");
+		final JPanel cp = new JPanel(new BorderLayout());
+		final JPanel queryPanel = new JPanel(new FlowLayout());
 		
-		JMenuBar menu = new JMenuBar();
-		JMenu file = new JMenu("File");
-		menu.add(file);
-
+		userField = new JTextField();
 		userField.setPreferredSize(new Dimension(128, 20));
+		userField.addActionListener(launchQuery);
+		queryPanel.add(new JLabel("User"));
+		queryPanel.add(userField);
+		
+		tagField = new JTextField();
 		tagField.setPreferredSize(new Dimension(128, 20));
-		keywords.setPreferredSize(new Dimension(128, 20));
-		pane.add(resultPane, BorderLayout.CENTER);
-		pane.add(pane2, BorderLayout.NORTH);
+		tagField.addActionListener(launchQuery);
+		queryPanel.add(new JLabel("Hashtag Search"));
+		queryPanel.add(tagField);
 		
-		pane2.add(userLabel);
-		pane2.add(userField);
-		pane2.add(tagLabel);
-		pane2.add(tagField);
-		pane2.add(keyLabel);
-		pane2.add(keywords);
-		pane2.add(searchButton);
+		keywordsField = new JTextField();
+		keywordsField.setPreferredSize(new Dimension(128, 20));
+		keywordsField.addActionListener(launchQuery);
+		queryPanel.add(new JLabel("Keywords Search"));
+		queryPanel.add(keywordsField);
 		
-		frame.add(pane);
-		frame.setJMenuBar(menu);
+		searchButton = new JButton("Search");
+		searchButton.addActionListener(launchQuery);
+		queryPanel.add(searchButton);
+		
+		cp.add(queryPanel, BorderLayout.NORTH);
+		
+		resultsPanel = new JPanel();
+		resultsPanel.setLayout(new GridBagLayout());
+		
+		final JScrollPane scrP = new JScrollPane(resultsPanel);
+		scrP.getVerticalScrollBar().setUnitIncrement(16);
+		scrP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		cp.add(scrP, BorderLayout.CENTER);
+		
+		frame.getContentPane().add(cp);
 		frame.setSize(800, 400);
-
 	}
-
+	
 	@Override
 	public void setController(TwitterController controller) {
 		this.controller = controller;
 	}
-
+	
 	@Override
 	public void notifyModelChanged(TwitterModel tm) {
-		for(Twit t : tm.twits)
-			System.out.println(t.text);
+		resultsPanel.removeAll();
+		
+		final GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.weighty = 0.0;
+		
+		for (Twit twit : tm.twits) {
+			resultsPanel.add(new TwitPanel(twit), c);
+			++c.gridy;
+		}
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		resultsPanel.add(new JPanel(), c);
+		
+		resultsPanel.revalidate();
+		resultsPanel.repaint();
 	}
-
+	
 	@Override
 	public void run() {
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
 	@Override
 	public void notifyError(Exception ex) {
-
+		ex.printStackTrace(System.err);
 	}
 }

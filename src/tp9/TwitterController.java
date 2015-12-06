@@ -35,10 +35,13 @@ public class TwitterController implements Observer {
 	public void loadTwits(List<String> users, List<String> hashtags, List<String> keywords) {
 		StringBuilder sb = new StringBuilder();
 		for(String user : users)
+			if(!user.isEmpty())
 			sb.append(" @").append(user);
 		for(String hashtag : hashtags)
+			if(!hashtag.isEmpty())
 			sb.append(" #").append(hashtag);
 		for(String keyword : keywords)
+			if(!keyword.isEmpty())
 			sb.append(" ").append(keyword);
 		
 		Query query = new Query(sb.toString());
@@ -46,7 +49,7 @@ public class TwitterController implements Observer {
 		QueryResult result;
 		try {
 			result = _twitter.search(query);
-			_model.setStatus(result.getTweets());
+			_model.loatTweets(result.getTweets());
 			_model.notifyObservers();
 		} catch (Exception ex) {
 			_view.notifyError(ex);
