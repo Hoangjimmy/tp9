@@ -21,7 +21,6 @@ public class TwitPanel extends JPanel {
 		
 		JLabel avatar = new JLabel(ImageLoader.load(twit.avatar));
 		avatar.setPreferredSize(AVATAR_SIZE);
-		
 		add(avatar, new GridBagConstraints() {
 			{
 				gridx = 0;
