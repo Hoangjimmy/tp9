@@ -89,7 +89,7 @@ public class SwingTwitterView implements ITwitterView {
 	@Override
 	public void notifyModelChanged(TwitterModel tm) {
 		for(Twit t : tm.twits)
-			resultTA.setText(t.text);
+			System.out.println(t.text);
 	}
 
 	@Override

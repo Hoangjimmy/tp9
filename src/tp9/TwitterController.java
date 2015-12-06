@@ -3,13 +3,9 @@ package tp9;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import tp9.model.Twit;
 import tp9.model.TwitterModel;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
@@ -50,8 +46,7 @@ public class TwitterController implements Observer {
 		QueryResult result;
 		try {
 			result = _twitter.search(query);
-			for (Status s : result.getTweets())
-				_model.twits.add(new Twit(s));
+			_model.setStatus(result.getTweets());
 			_model.notifyObservers();
 		} catch (TwitterException ex) {
 			_view.notifyError(ex);
