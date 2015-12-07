@@ -23,12 +23,15 @@ import tp9.model.TwitterModel;
 
 public class SwingTwitterView implements ITwitterView {
 
+	private static final Color BG_BLUE = new Color(0xFF90C0FF);
+
 	private final JFrame frame;
 	private final JTextField usersField;
 	private final JTextField tagsField;
 	private final JButton searchButton;
 	private final JScrollPane resultsScroller;
 	private final JPanel resultsPanel;
+	private final JPanel resultsBottomPanel;
 	private final JTextField keywordsField;
 	private TwitterController controller;
 
@@ -71,7 +74,10 @@ public class SwingTwitterView implements ITwitterView {
 
 		resultsPanel = new JPanel();
 		resultsPanel.setLayout(new GridBagLayout());
-		resultsPanel.setBackground(new Color(0xFF90C0FF));
+		resultsPanel.setBackground(BG_BLUE);
+
+		resultsBottomPanel = new JPanel();
+		resultsBottomPanel.setOpaque(false);
 
 		resultsScroller = new JScrollPane(resultsPanel);
 		resultsScroller.getVerticalScrollBar().setUnitIncrement(16);
@@ -87,12 +93,12 @@ public class SwingTwitterView implements ITwitterView {
 		usersField.setEnabled(false);
 		tagsField.setEnabled(false);
 		keywordsField.setEnabled(false);
-		
+
 		controller.loadTwits(
 				Arrays.asList(usersField.getText().split("\\s+")),
 				Arrays.asList(tagsField.getText().split("\\s+")),
 				Arrays.asList(keywordsField.getText().split("\\s+")));
-		
+
 		usersField.setEnabled(true);
 		tagsField.setEnabled(true);
 		keywordsField.setEnabled(true);
@@ -121,9 +127,16 @@ public class SwingTwitterView implements ITwitterView {
 
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1.0;
-		resultsPanel.add(new JPanel(), c);
+		resultsPanel.add(resultsBottomPanel, c);
 
-		resultsScroller.getVerticalScrollBar().setValue(0);
+		// Wth
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				resultsScroller.getVerticalScrollBar().setValue(0);
+			}
+		});
+
 		resultsPanel.revalidate();
 		resultsPanel.repaint();
 	}

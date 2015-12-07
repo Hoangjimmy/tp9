@@ -48,15 +48,11 @@ public class TwitPanel extends JPanel {
 			}
 		});
 
-		// Autosize to fit enclowing width and content height
+		// Autosize to fit enclosing width and content height
 		JTextPane text = new JTextPane() {
 			@Override
 			public Dimension getPreferredSize() {
-				JTextPane dummy = new JTextPane();
-				dummy.setSize(getWidth(), Short.MAX_VALUE);
-				dummy.setText(getText());
-				
-				return new Dimension(0, dummy.getPreferredSize().height);
+				return new Dimension(0, 0);
 			}
 		};
 		text.setText(twit.text);
