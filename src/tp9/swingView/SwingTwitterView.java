@@ -27,6 +27,7 @@ public class SwingTwitterView implements ITwitterView {
 	private final JTextField usersField;
 	private final JTextField tagsField;
 	private final JButton searchButton;
+	private final JScrollPane resultsScroller;
 	private final JPanel resultsPanel;
 	private final JTextField keywordsField;
 	private TwitterController controller;
@@ -72,11 +73,11 @@ public class SwingTwitterView implements ITwitterView {
 		resultsPanel.setLayout(new GridBagLayout());
 		resultsPanel.setBackground(new Color(0xFF90C0FF));
 
-		final JScrollPane scrP = new JScrollPane(resultsPanel);
-		scrP.getVerticalScrollBar().setUnitIncrement(16);
-		scrP.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrP.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		cp.add(scrP, BorderLayout.CENTER);
+		resultsScroller = new JScrollPane(resultsPanel);
+		resultsScroller.getVerticalScrollBar().setUnitIncrement(16);
+		resultsScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		resultsScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		cp.add(resultsScroller, BorderLayout.CENTER);
 
 		frame.getContentPane().add(cp);
 		frame.setSize(800, 600);
@@ -122,6 +123,7 @@ public class SwingTwitterView implements ITwitterView {
 		c.weighty = 1.0;
 		resultsPanel.add(new JPanel(), c);
 
+		resultsScroller.getVerticalScrollBar().setValue(0);
 		resultsPanel.revalidate();
 		resultsPanel.repaint();
 	}
